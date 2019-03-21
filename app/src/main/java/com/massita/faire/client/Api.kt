@@ -1,9 +1,11 @@
 package com.massita.faire.client
 
 import android.util.Log
+import com.massita.faire.model.Category
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -12,7 +14,7 @@ import retrofit2.http.POST
 interface Api {
 
     @GET("/api/category/new")
-    fun getCategories()
+    fun getCategories() : Call<List<Category>>
 
     @POST( "/api/search/makers-with-filters")
     fun searchMarkers()
