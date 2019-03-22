@@ -30,6 +30,11 @@ class ProductsAdapter : RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
         }
     }
 
+    fun setList(list: List<Product>) {
+        productList = list
+        notifyDataSetChanged()
+    }
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(product: Product) {
