@@ -38,7 +38,6 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -75,7 +74,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupSubCategory() {
-        subCategoryAdapter = CategoryAdapter()
+        subCategoryAdapter = CategoryAdapter(true)
+        subCategoryAdapter.setSelectedItem(selectedCategoryViewModel)
 
         subCategoriesRecyclerView.apply {
             val mLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -83,10 +83,16 @@ class HomeFragment : Fragment() {
             setHasFixedSize(true)
             adapter = subCategoryAdapter
         }
+
+        selectedCategoryViewModel.getSubCategory().observe(this, Observer { changeSelectedSubCategory(it) })
     }
 
     private fun changeSelectedCategory(selectedCategory: Category) {
         subCategoryAdapter.setList(selectedCategory.subCategories)
+        brandViewModel.setCategory(selectedCategory.name)
+    }
+
+    private fun changeSelectedSubCategory(selectedCategory: Category) {
         brandViewModel.setCategory(selectedCategory.name)
     }
 
