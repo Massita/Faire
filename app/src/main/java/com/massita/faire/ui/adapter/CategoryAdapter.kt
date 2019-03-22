@@ -10,7 +10,7 @@ import com.massita.faire.model.Category
 import com.massita.faire.viewmodel.CategoryViewModel
 import kotlinx.android.synthetic.main.category_item.view.*
 
-class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+class CategoryAdapter(var isSubCategory: Boolean = false) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     private var categoryList : List<Category>? = null
     private var categoryViewModel : CategoryViewModel? = null
@@ -28,7 +28,11 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
             val category = it[position]
             holder.bind(category, selectedItemPosition == position)
             holder.itemView.setOnClickListener {
-                categoryViewModel?.setCategory(category)
+                if(!isSubCategory) {
+                    categoryViewModel?.setCategory(category)
+                } else {
+                    categoryViewModel?.setSubcategory(category)
+                }
 
                 if(selectedItemPosition != -1) {
                     notifyItemChanged(selectedItemPosition)
@@ -41,6 +45,7 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     fun setList(list: List<Category>) {
         this.categoryList = list
+        selectedItemPosition = -1
         notifyDataSetChanged()
     }
 
