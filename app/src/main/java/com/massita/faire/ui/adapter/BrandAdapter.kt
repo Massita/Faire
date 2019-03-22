@@ -3,11 +3,13 @@ package com.massita.faire.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.massita.faire.R
 import com.massita.faire.model.Brand
+import com.massita.faire.ui.HomeFragmentDirections
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.brand_item.view.*
 
@@ -45,6 +47,12 @@ class BrandAdapter : PagedListAdapter<Brand, BrandAdapter.ViewHolder>(diffCallba
                 Picasso.get().load(it.url)
                     .into(itemView.brandImage)
             }
+
+            val action = HomeFragmentDirections.actionSelectBrand()
+            action.brand = brand
+            itemView.setOnClickListener(
+                Navigation.createNavigateOnClickListener(R.id.action_selectBrand, action.arguments)
+            )
         }
 
     }

@@ -14,7 +14,6 @@ class CategoryAdapter(var isSubCategory: Boolean = false) : RecyclerView.Adapter
 
     private var categoryList : List<Category>? = null
     private var categoryViewModel : CategoryViewModel? = null
-    private var selectedItemPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.category_item, parent, false)
@@ -26,7 +25,8 @@ class CategoryAdapter(var isSubCategory: Boolean = false) : RecyclerView.Adapter
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         categoryList?.let {
             val category = it[position]
-            holder.bind(category, selectedItemPosition == position)
+            val selected = category == categoryViewModel?.getCategory()?.value || category == categoryViewModel?.getSubCategory()?.value
+            holder.bind(category, selected)
             holder.itemView.setOnClickListener {
                 if(!isSubCategory) {
                     categoryViewModel?.setCategory(category)
@@ -34,10 +34,7 @@ class CategoryAdapter(var isSubCategory: Boolean = false) : RecyclerView.Adapter
                     categoryViewModel?.setSubcategory(category)
                 }
 
-                if(selectedItemPosition != -1) {
-                    notifyItemChanged(selectedItemPosition)
-                }
-                selectedItemPosition = position
+                notifyDataSetChanged()
                 holder.setSelected()
             }
         }
@@ -45,7 +42,6 @@ class CategoryAdapter(var isSubCategory: Boolean = false) : RecyclerView.Adapter
 
     fun setList(list: List<Category>) {
         this.categoryList = list
-        selectedItemPosition = -1
         notifyDataSetChanged()
     }
 
