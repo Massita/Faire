@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  */
 data class Category(
     @SerializedName("name") var name: String,
-    @SerializedName("sub_categories") var subCategories : List<Category>,
-    @SerializedName("is_product_based") var isProductBased : Boolean,
-    @SerializedName("is_featured") var isFeatured : Boolean
+    @SerializedName("sub_categories") var subCategories : List<Category>?,
+    @SerializedName("is_product_based") var isProductBased : Boolean?,
+    @SerializedName("is_featured") var isFeatured : Boolean?
 )
