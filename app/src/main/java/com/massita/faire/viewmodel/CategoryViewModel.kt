@@ -7,6 +7,7 @@ import com.massita.faire.model.Category
 class CategoryViewModel : ViewModel() {
 
     private var category = MutableLiveData<Category>()
+    private var subCategory = MutableLiveData<Category>()
 
 
     fun setCategory(category: Category) {
@@ -15,6 +16,14 @@ class CategoryViewModel : ViewModel() {
 
     fun getCategory() : MutableLiveData<Category> {
         return category
+    }
+
+    fun setSubcategory(category: Category) {
+        this.subCategory.postValue(category)
+    }
+
+    fun getSubCategory() : MutableLiveData<Category> {
+        return subCategory
     }
 
 }
