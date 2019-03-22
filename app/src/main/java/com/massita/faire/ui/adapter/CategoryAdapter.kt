@@ -14,6 +14,7 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     private var categoryList : List<Category>? = null
     private var categoryViewModel : CategoryViewModel? = null
+    private var selectedItemPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.category_item, parent, false)
@@ -25,13 +26,16 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         categoryList?.let {
             val category = it[position]
-            holder.bind(category)
-            holder.itemView.setOnClickListener(object : View.OnClickListener{
-                override fun onClick(v: View?) {
-                    categoryViewModel?.setCategory(category)
-                }
+            holder.bind(category, selectedItemPosition == position)
+            holder.itemView.setOnClickListener {
+                categoryViewModel?.setCategory(category)
 
-            })
+                if(selectedItemPosition != -1) {
+                    notifyItemChanged(selectedItemPosition)
+                }
+                selectedItemPosition = position
+                holder.setSelected()
+            }
         }
     }
 
@@ -46,8 +50,22 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(category: Category) {
+        fun bind(category: Category, selected: Boolean) {
             itemView.categoryName.text = category.name
+
+            if(selected) {
+                setSelected()
+            } else {
+                removeSelected()
+            }
+        }
+
+        fun setSelected() {
+            itemView.categoryName.setTypeface(null, Typeface.BOLD)
+        }
+
+        fun removeSelected() {
+            itemView.categoryName.setTypeface(null, Typeface.NORMAL)
         }
     }
 }
