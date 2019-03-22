@@ -7,12 +7,25 @@ import com.massita.faire.model.Brand
 
 class SearchMakersWithFiltersDataFactory : DataSource.Factory<Int, Brand>() {
 
-    private var brandLiveData = MutableLiveData<SearchMakersWithFiltersDataSource>()
+    var brandLiveData = MutableLiveData<SearchMakersWithFiltersDataSource>()
+    private lateinit var searchMakersWithFiltersDataSource: SearchMakersWithFiltersDataSource
+
+    var categoryQuery: String? = null
+    var nameQuery: String? = null
 
     override fun create(): DataSource<Int, Brand> {
-        val searchMakersWithFiltersDataSource = SearchMakersWithFiltersDataSource()
+        searchMakersWithFiltersDataSource = SearchMakersWithFiltersDataSource(categoryQuery, nameQuery)
         brandLiveData.postValue(searchMakersWithFiltersDataSource)
         return searchMakersWithFiltersDataSource
     }
 
+    fun searchCategory(category: String) {
+        this.categoryQuery = category
+        searchMakersWithFiltersDataSource.clearPagination()
+    }
+
+    fun searchName(name: String) {
+        this.nameQuery = name
+        searchMakersWithFiltersDataSource.clearPagination()
+    }
 }

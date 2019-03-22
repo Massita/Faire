@@ -87,7 +87,7 @@ class HomeFragment : Fragment() {
 
     private fun changeSelectedCategory(selectedCategory: Category) {
         subCategoryAdapter.setList(selectedCategory.subCategories)
-        // TODO: Reload brands
+        brandViewModel.setCategory(selectedCategory.name)
     }
 
     private fun setupBrands() {

@@ -10,17 +10,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchMakersWithFiltersDataSource : ItemKeyedDataSource<Int, Brand>() {
+class SearchMakersWithFiltersDataSource(val categoryQuery: String?, val nameQuery: String?) : ItemKeyedDataSource<Int, Brand>() {
 
     private val mApi: Api by lazy { Api.create() }
 
     private var pageNumber = 1
-    private var pageSize = 5
-    private var categoryQuery: String? = null
-    private var nameQuery: String? = null
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Brand>) {
-        mApi.searchMarkers(SearchMakersWithFiltersRequest(PaginationData(pageNumber, pageSize, null, null), categoryQuery, nameQuery))
+        mApi.searchMarkers(SearchMakersWithFiltersRequest(PaginationData(params.requestedInitialKey, params.requestedLoadSize, null, null), categoryQuery, nameQuery))
             .enqueue(object : Callback<SearchMakersWithFiltersResponse>{
                 override fun onFailure(call: Call<SearchMakersWithFiltersResponse>, t: Throwable) {
                     // TODO: Handle the failure
@@ -38,7 +35,7 @@ class SearchMakersWithFiltersDataSource : ItemKeyedDataSource<Int, Brand>() {
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Brand>) {
-        mApi.searchMarkers(SearchMakersWithFiltersRequest(PaginationData(pageNumber, pageSize, null, null), categoryQuery, nameQuery))
+        mApi.searchMarkers(SearchMakersWithFiltersRequest(PaginationData(params.key, params.requestedLoadSize, null, null), categoryQuery, nameQuery))
             .enqueue(object : Callback<SearchMakersWithFiltersResponse>{
                 override fun onFailure(call: Call<SearchMakersWithFiltersResponse>, t: Throwable) {
                     // TODO: Handle the failure
@@ -63,4 +60,7 @@ class SearchMakersWithFiltersDataSource : ItemKeyedDataSource<Int, Brand>() {
         return pageNumber
     }
 
+    fun clearPagination() {
+        pageNumber = 1
+    }
 }

@@ -14,11 +14,21 @@ class BrandViewModel : ViewModel() {
 
     init {
         val config = PagedList.Config.Builder()
-            .setPageSize(20)
-            .setInitialLoadSizeHint(20)
+            .setPageSize(10)
+            .setInitialLoadSizeHint(10)
             .setEnablePlaceholders(false)
             .build()
 
         brandList = LivePagedListBuilder<Int, Brand>(searchMakersWithFiltersDataFactory, config).build()
+    }
+
+    fun setBrandName(name: String) {
+        searchMakersWithFiltersDataFactory.searchName(name)
+        brandList.value?.dataSource?.invalidate()
+    }
+
+    fun setCategory(category: String) {
+        searchMakersWithFiltersDataFactory.searchCategory(category)
+        brandList.value?.dataSource?.invalidate()
     }
 }
