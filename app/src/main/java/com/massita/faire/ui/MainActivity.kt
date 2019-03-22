@@ -1,7 +1,8 @@
-package com.massita.faire
+package com.massita.faire.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.massita.faire.R
 
 class MainActivity : AppCompatActivity() {
 
