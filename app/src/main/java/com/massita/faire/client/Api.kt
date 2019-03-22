@@ -2,6 +2,7 @@ package com.massita.faire.client
 
 import android.util.Log
 import com.massita.faire.model.Category
+import com.massita.faire.model.Product
 import com.massita.faire.model.SearchMakersWithFiltersRequest
 import com.massita.faire.model.SearchMakersWithFiltersResponse
 import okhttp3.HttpUrl
@@ -13,6 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface Api {
 
@@ -23,7 +25,7 @@ interface Api {
     fun searchMarkers(@Body requestBody: SearchMakersWithFiltersRequest) : Call<SearchMakersWithFiltersResponse>
 
     @GET("/api/brand/{brand_token}/products")
-    fun getProducts()
+    fun getProducts(@Path("brand_token") brandToken: String?) : Call<List<Product>>
 
     companion object {
         private const val BASE_URL = "https://www.faire.com/"

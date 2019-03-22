@@ -13,5 +13,5 @@ data class Product(
     @SerializedName("short_description") var shortDescription: String?,
     @SerializedName("wholesale_price_cents") var wholesalePriceCents: Long?,
     @SerializedName("retail_price_cents") var retailPriceCents: Long?,
-    @SerializedName("images") var images: Image?
+    @SerializedName("images") var images: List<Image>?
 )
