@@ -1,4 +1,4 @@
-package com.massita.faire.ui
+package com.massita.faire.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
