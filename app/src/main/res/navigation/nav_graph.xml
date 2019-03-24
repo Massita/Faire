@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_selectBrand"
             app:destination="@id/brandFragment" />
+        <action
+            android:id="@+id/action_search"
+            app:destination="@id/searchFragment" />
     </fragment>
 
     <fragment
@@ -25,5 +28,15 @@
             app:argType="com.massita.faire.model.Brand"
             app:nullable="true"
             android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.massita.faire.ui.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <argument
+            android:name="searchQuery"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

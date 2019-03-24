@@ -1,10 +1,7 @@
 package com.massita.faire.client
 
 import android.util.Log
-import com.massita.faire.model.Category
-import com.massita.faire.model.Product
-import com.massita.faire.model.SearchMakersWithFiltersRequest
-import com.massita.faire.model.SearchMakersWithFiltersResponse
+import com.massita.faire.model.*
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -26,6 +23,9 @@ interface Api {
 
     @GET("/api/brand/{brand_token}/products")
     fun getProducts(@Path("brand_token") brandToken: String?) : Call<List<Product>>
+
+    @POST("/api/search/suggestions")
+    fun getSuggestions(@Body requestBody: SearchSuggestionsRequest) : Call<SearchSuggestionsResponse>
 
     companion object {
         private const val BASE_URL = "https://www.faire.com/"

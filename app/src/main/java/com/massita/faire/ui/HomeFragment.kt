@@ -7,6 +7,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.massita.faire.R
@@ -53,12 +55,13 @@ class HomeFragment : Fragment() {
         val searchView = menuItem?.actionView as SearchView?
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
+                val action = HomeFragmentDirections.actionSearch(query)
+                NavHostFragment.findNavController(this@HomeFragment).navigate(action)
+                return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // TODO: get suggestions
-                return true
+                return false
             }
 
         })
