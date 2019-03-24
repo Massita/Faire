@@ -42,7 +42,7 @@ class BrandFragment : Fragment() {
         setupRecyclerView()
     }
 
-    fun loadBrand() {
+    private fun loadBrand() {
         val brand = args.brand
         brand?.let {
             brandViewModel = ViewModelProviders.of(this).get(BrandViewModel::class.java)
@@ -58,12 +58,12 @@ class BrandFragment : Fragment() {
         }
     }
 
-    fun loadProducts(brand: Brand) {
+    private fun loadProducts(brand: Brand) {
         productsViewModel = ViewModelProviders.of(this).get(ProductsViewModel::class.java)
         productsViewModel.getProducts(brand.token).observe(this, Observer { productsAdapter.setList(it) })
     }
 
-    fun setBrandData(brand: Brand) {
+    private fun setBrandData(brand: Brand) {
         brandTitle.text = brand.name
         brandDescription.text = brand.description
 
