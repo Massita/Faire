@@ -2,6 +2,7 @@ package com.massita.faire.ui
 
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,6 +67,7 @@ class BrandFragment : Fragment() {
     private fun setBrandData(brand: Brand) {
         brandTitle.text = brand.name
         brandDescription.text = brand.description
+        brandDescription.movementMethod = ScrollingMovementMethod()
 
         brand.squaredImage?.let {
             Picasso.get().load(it.url)
