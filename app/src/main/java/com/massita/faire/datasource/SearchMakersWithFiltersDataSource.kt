@@ -17,7 +17,7 @@ class SearchMakersWithFiltersDataSource(val categoryQuery: String?, val nameQuer
     private var pageNumber = 1
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Brand>) {
-        mApi.searchMarkers(SearchMakersWithFiltersRequest(PaginationData(params.requestedInitialKey, params.requestedLoadSize, null, null), categoryQuery, nameQuery))
+        mApi.searchMarkers(SearchMakersWithFiltersRequest(PaginationData(pageNumber, params.requestedLoadSize, null, null), categoryQuery, nameQuery))
             .enqueue(object : Callback<SearchMakersWithFiltersResponse>{
                 override fun onFailure(call: Call<SearchMakersWithFiltersResponse>, t: Throwable) {
                     // TODO: Handle the failure

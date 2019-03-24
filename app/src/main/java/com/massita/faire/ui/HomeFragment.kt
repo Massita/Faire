@@ -2,9 +2,8 @@ package com.massita.faire.ui
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -34,11 +33,35 @@ class HomeFragment : Fragment() {
     private lateinit var selectedCategoryViewModel: CategoryViewModel
     private lateinit var brandViewModel: BrandViewModel
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.search_menu, menu)
+
+        val menuItem = menu?.findItem(R.id.action_search)
+        val searchView = menuItem?.actionView as SearchView?
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // TODO: get suggestions
+                return true
+            }
+
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -108,5 +131,4 @@ class HomeFragment : Fragment() {
 
         brandViewModel.brandList.observe(this, Observer { brandAdapter.submitList(it) })
     }
-
 }
