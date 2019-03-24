@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@+id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.massita.faire.ui.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_selectBrand"
             app:destination="@id/brandFragment" />
@@ -22,18 +22,18 @@
         android:id="@+id/brandFragment"
         android:name="com.massita.faire.ui.BrandFragment"
         android:label="fragment_brand"
-        tools:layout="@layout/fragment_brand" >
+        tools:layout="@layout/fragment_brand">
         <argument
             android:name="brand"
+            android:defaultValue="@null"
             app:argType="com.massita.faire.model.Brand"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.massita.faire.ui.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <argument
             android:name="searchQuery"
             app:argType="string"
@@ -41,5 +41,8 @@
         <action
             android:id="@+id/action_selectBrand"
             app:destination="@id/brandFragment" />
+        <deepLink
+            android:id="@+id/searchDeepLink"
+            app:uri="www.faire.com/?search={searchQuery}" />
     </fragment>
 </navigation>

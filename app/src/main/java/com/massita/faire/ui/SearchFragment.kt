@@ -7,6 +7,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,8 @@ import com.massita.faire.viewmodel.SearchResultViewModel
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : Fragment() {
+
+    private val args: SearchFragmentArgs by navArgs()
 
     private lateinit var searchAdapter: SearchAdapter
     private lateinit var searchViewModel: SearchResultViewModel
@@ -40,17 +43,25 @@ class SearchFragment : Fragment() {
 
         val menuItem = menu?.findItem(R.id.action_search)
         val searchView = menuItem?.actionView as SearchView?
-        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                searchViewModel.loadSuggestions(newText?:"")
-                return true
-            }
+        searchView?.let {
+            it.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
 
-        })
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    searchViewModel.loadSuggestions(newText?:"")
+                    return true
+                }
+            })
+
+            if(it.query.isNullOrEmpty()) {
+                val query = args.searchQuery
+                it.setQuery(query, true)
+            }
+        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
