@@ -24,7 +24,7 @@ The idea for this hackathon was to allow the user to search a maker and have the
 -   Material design components
 
 ## Screenshots
-![Home](https://github.com/Massita/Faire/blob/hackathon/screenshots/Screenshot_1553460745.png)
+![Home](https://raw.githubusercontent.com/Massita/Faire/hackathon/screenshots/Screenshot_1553460745.png?v=4&s=200)
 ![Search](https://github.com/Massita/Faire/blob/hackathon/screenshots/Screenshot_1553460765.png)
 ![Maker](https://github.com/Massita/Faire/blob/hackathon/screenshots/Screenshot_1553460865.png)
 ## Deeplink
