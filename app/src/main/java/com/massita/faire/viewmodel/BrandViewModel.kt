@@ -1,34 +1,37 @@
 package com.massita.faire.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
+import com.massita.faire.client.Api
 import com.massita.faire.model.Brand
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class BrandViewModel : ViewModel() {
 
-    var brandList: LiveData<PagedList<Brand>>
+    var brand = MutableLiveData<Brand>()
 
-    private val searchMakersWithFiltersDataFactory = SearchMakersWithFiltersDataFactory()
-
-    init {
-        val config = PagedList.Config.Builder()
-            .setPageSize(10)
-            .setInitialLoadSizeHint(10)
-            .setEnablePlaceholders(false)
-            .build()
-
-        brandList = LivePagedListBuilder<Int, Brand>(searchMakersWithFiltersDataFactory, config).build()
+    fun getBrand() : LiveData<Brand> {
+        return brand
     }
 
-    fun setBrandName(name: String) {
-        searchMakersWithFiltersDataFactory.searchName(name)
-        brandList.value?.dataSource?.invalidate()
-    }
+    fun loadBrand(brandToken: String) {
+        val call = Api.create()
+            .getBrand(brandToken)
 
-    fun setCategory(category: String) {
-        searchMakersWithFiltersDataFactory.searchCategory(category)
-        brandList.value?.dataSource?.invalidate()
+        call.enqueue(object : Callback<Brand> {
+            override fun onFailure(call: Call<Brand>, t: Throwable) {
+                // TODO: On error
+            }
+
+            override fun onResponse(call: Call<Brand>, response: Response<Brand>) {
+                response.body()?.let {
+                    brand.postValue(it)
+                }
+            }
+
+        })
     }
 }

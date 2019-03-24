@@ -24,7 +24,7 @@ class CategoriesViewModel : ViewModel() {
 
         call.enqueue(object : Callback<List<Category>> {
             override fun onFailure(call: Call<List<Category>>, t: Throwable) {
-                // Do something on fail
+                // TODO: Do something on fail
             }
 
             override fun onResponse(call: Call<List<Category>>, response: Response<List<Category>>) {

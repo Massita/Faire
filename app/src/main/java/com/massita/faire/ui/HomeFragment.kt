@@ -7,7 +7,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +14,7 @@ import com.massita.faire.R
 import com.massita.faire.model.Category
 import com.massita.faire.ui.adapter.BrandAdapter
 import com.massita.faire.ui.adapter.CategoryAdapter
-import com.massita.faire.viewmodel.BrandViewModel
+import com.massita.faire.viewmodel.BrandListViewModel
 import com.massita.faire.viewmodel.CategoriesViewModel
 import com.massita.faire.viewmodel.CategoryViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -33,7 +32,7 @@ class HomeFragment : Fragment() {
     private lateinit var categoriesViewModel: CategoriesViewModel
 
     private lateinit var selectedCategoryViewModel: CategoryViewModel
-    private lateinit var brandViewModel: BrandViewModel
+    private lateinit var brandListViewModel: BrandListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +79,7 @@ class HomeFragment : Fragment() {
     private fun setupViewModels() {
         categoriesViewModel = ViewModelProviders.of(this).get(CategoriesViewModel::class.java)
         selectedCategoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel::class.java)
-        brandViewModel = ViewModelProviders.of(this).get(BrandViewModel::class.java)
+        brandListViewModel = ViewModelProviders.of(this).get(BrandListViewModel::class.java)
     }
 
     private fun setupCategories() {
@@ -115,11 +114,11 @@ class HomeFragment : Fragment() {
 
     private fun changeSelectedCategory(selectedCategory: Category) {
         subCategoryAdapter.setList(selectedCategory.subCategories)
-        brandViewModel.setCategory(selectedCategory.name)
+        brandListViewModel.setCategory(selectedCategory.name)
     }
 
     private fun changeSelectedSubCategory(selectedCategory: Category) {
-        brandViewModel.setCategory(selectedCategory.name)
+        brandListViewModel.setCategory(selectedCategory.name)
     }
 
     private fun setupBrands() {
@@ -132,6 +131,6 @@ class HomeFragment : Fragment() {
             adapter = brandAdapter
         }
 
-        brandViewModel.brandList.observe(this, Observer { brandAdapter.submitList(it) })
+        brandListViewModel.brandList.observe(this, Observer { brandAdapter.submitList(it) })
     }
 }

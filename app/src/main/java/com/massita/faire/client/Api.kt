@@ -27,6 +27,9 @@ interface Api {
     @POST("/api/search/suggestions")
     fun getSuggestions(@Body requestBody: SearchSuggestionsRequest) : Call<SearchSuggestionsResponse>
 
+    @GET("/api/brand/{brand_token}")
+    fun getBrand(@Path("brand_token") brandToken: String?) : Call<Brand>
+
     companion object {
         private const val BASE_URL = "https://www.faire.com/"
 

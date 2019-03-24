@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
@@ -14,13 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.massita.faire.R
 import com.massita.faire.model.Brand
 import com.massita.faire.ui.adapter.ProductsAdapter
+import com.massita.faire.viewmodel.BrandViewModel
 import com.massita.faire.viewmodel.ProductsViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_brand.*
 
 class BrandFragment : Fragment() {
     private val args: BrandFragmentArgs by navArgs()
-    private var brand: Brand? = null
+    private var brandViewModel: BrandViewModel? = null
 
     private lateinit var productsAdapter: ProductsAdapter
     private lateinit var productsViewModel : ProductsViewModel
@@ -36,22 +38,43 @@ class BrandFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        brand = args.brand!!
+        loadBrand()
+        setupRecyclerView()
+    }
 
-        brandTitle.text = brand?.name
-        brandDescription.text = brand?.description
+    fun loadBrand() {
+        val brand = args.brand
+        brand?.let {
+            brandViewModel = ViewModelProviders.of(this).get(BrandViewModel::class.java)
 
-        brand?.squaredImage?.let {
+            brandViewModel?.getBrand()?.observe(this, Observer { setBrandData(it) })
+            brandViewModel?.brand?.postValue(brand)
+
+            if(it.description.isNullOrEmpty()) {
+                brandViewModel?.loadBrand(it.token)
+            }
+
+            loadProducts(it)
+        }
+    }
+
+    fun loadProducts(brand: Brand) {
+        productsViewModel = ViewModelProviders.of(this).get(ProductsViewModel::class.java)
+        productsViewModel.getProducts(brand.token).observe(this, Observer { productsAdapter.setList(it) })
+    }
+
+    fun setBrandData(brand: Brand) {
+        brandTitle.text = brand.name
+        brandDescription.text = brand.description
+
+        brand.squaredImage?.let {
             Picasso.get().load(it.url)
                 .into(brandImage)
         }
-
-        setupRecyclerView()
     }
 
     private fun setupRecyclerView() {
         productsAdapter = ProductsAdapter()
-        productsViewModel = ViewModelProviders.of(this).get(ProductsViewModel::class.java)
 
         productsRecyclerView.apply {
             val mLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -60,8 +83,6 @@ class BrandFragment : Fragment() {
             setHasFixedSize(true)
             adapter = productsAdapter
         }
-
-        productsViewModel.getProducts(brand?.token).observe(this, Observer { productsAdapter.setList(it) })
     }
 
 
