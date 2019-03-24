@@ -46,6 +46,7 @@ class ProductsAdapter : RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
             product.images?.let {
                 if(it.isNotEmpty()) {
                     Picasso.get().load(it[0].url)
+                        .fit()
                         .into(itemView.productImage)
                 }
             }

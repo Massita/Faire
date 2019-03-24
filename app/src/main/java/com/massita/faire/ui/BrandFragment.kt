@@ -43,7 +43,13 @@ class BrandFragment : Fragment() {
     }
 
     private fun loadBrand() {
-        val brand = args.brand
+        var brand = args.brand
+        val brandToken = args.brandToken
+
+        if(!brandToken.isNullOrEmpty()) {
+            brand = Brand(brandToken, null, null, null, null, null, null)
+        }
+
         brand?.let {
             brandViewModel = ViewModelProviders.of(this).get(BrandViewModel::class.java)
 
@@ -70,6 +76,7 @@ class BrandFragment : Fragment() {
 
         brand.squaredImage?.let {
             Picasso.get().load(it.url)
+                .fit()
                 .into(brandImage)
         }
     }

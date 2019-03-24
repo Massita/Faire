@@ -28,6 +28,13 @@
             android:defaultValue="@null"
             app:argType="com.massita.faire.model.Brand"
             app:nullable="true" />
+        <argument
+            android:name="brandToken"
+            app:argType="string"
+            app:nullable="true" />
+        <deepLink
+            android:id="@+id/deepLink3"
+            app:uri="www.faire.com/brand/{brandToken}/1" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

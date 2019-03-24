@@ -45,10 +45,11 @@ class BrandAdapter : PagedListAdapter<Brand, BrandAdapter.ViewHolder>(diffCallba
 
             brand.squaredImage?.let {
                 Picasso.get().load(it.url)
+                    .fit()
                     .into(itemView.brandImage)
             }
 
-            val action = HomeFragmentDirections.actionSelectBrand()
+            val action = HomeFragmentDirections.actionSelectBrand(null)
             action.brand = brand
             itemView.setOnClickListener(
                 Navigation.createNavigateOnClickListener(R.id.action_selectBrand, action.arguments)

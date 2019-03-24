@@ -36,7 +36,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
         fun bind(brand: Brand) {
             itemView.brandName.text = brand.name
 
-            val action = SearchFragmentDirections.actionSelectBrand()
+            val action = SearchFragmentDirections.actionSelectBrand(null)
             action.brand = brand
             itemView.setOnClickListener(
                 Navigation.createNavigateOnClickListener(R.id.action_selectBrand, action.arguments)
